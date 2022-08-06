@@ -1,4 +1,4 @@
-package crystal.training;
+package crystal.training.exercises;
 // lombok
 public class Person_Build
 {
@@ -90,7 +90,7 @@ public class Person_Build
             .city("Birmingham")
             ////
             .build();
-    // TO BE COMPLETED BY YOU
+    // TO BE COMPLETED BY YOU exercises
     Person_Build person = Person_Build.builder().name("Indrit").address(add1).age(21).build();
     System.out.println(person.name);
     //Changes

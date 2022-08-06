@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public class Optionals {
   // String = String that is NEVER NULL
-  // String? = STring that might be null
+  // String? = String that might be null
 
   static String greeting(String name) {
     return "Hello " + (name!=null ? name:" unknown");

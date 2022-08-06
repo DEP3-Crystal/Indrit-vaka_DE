@@ -1,5 +1,8 @@
-package crystal.training;
+package crystal.training.exercises;
 
+
+
+import crystal.training.Person;
 
 import java.util.Arrays;
 import java.util.Collection;
