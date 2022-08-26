@@ -37,4 +37,14 @@ public class City {
     public void setArea(double area) {
         this.area = area;
     }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "name='" + name + '\'' +
+                ", state='" + state + '\'' +
+                ", people=" + people +
+                ", area=" + area +
+                '}';
+    }
 }
