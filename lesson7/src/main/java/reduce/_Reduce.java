@@ -1,15 +1,15 @@
 package reduce;
 
+import jdk.dynalink.linker.ConversionComparator;
 import reduce.model.City;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class _Reduce {
@@ -18,15 +18,43 @@ public class _Reduce {
 
         System.out.println(cities.size());
 
+        //reduce
+        City cityWithHighestPopulation = cities.stream()
+                .reduce((v1, v2) -> v1.getPeople() > v2.getPeople() ? v1 : v2)
+                .orElseThrow();
+        System.out.println("City with highest population: "
+                + cityWithHighestPopulation.getName()
+                + "(" + cityWithHighestPopulation.getPeople() + ")"
+        );
+
+        //Grouping by
         Map<String, List<City>> citiesPerState = cities.stream()
                 .collect(Collectors.groupingBy(City::getState));
         List<City> new_york = citiesPerState.get("New York");
         System.out.println("Total Cities in New York: " + new_york.size());
         System.out.println("Cities of New York");
-        new_york.forEach( city -> System.out.println("\t"+city.getName()));
+        new_york.forEach(city -> System.out.println("\t" + city.getName()));
+
+
+        Map<String, Long> cityNumberPerState = cities.stream()
+                .collect(Collectors.groupingBy(City::getState, Collectors.counting()));
+        Map.Entry<String, Long> stateWithMostCities = cityNumberPerState.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow();
+        System.out.println("State with most cities: " + stateWithMostCities);
+
+        //State with the most people
+        Map<String, Integer> peoplePerCity = cities.stream()
+                .collect(Collectors.groupingBy(City::getState, Collectors.summingInt(City::getPeople)));
+
+        Map.Entry<String, Integer> stateWithMostPeople = peoplePerCity.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow();
+        System.out.println("State with most people: " + stateWithMostPeople);
+
     }
 
-    private static Set<City> populateSet(){
+    private static Set<City> populateSet() {
         Set<City> cities = null;
         Path path = Path.of("lesson7/src/main/resources/cities.csv");
 
