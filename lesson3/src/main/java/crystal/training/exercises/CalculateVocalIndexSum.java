@@ -9,7 +9,7 @@ public class CalculateVocalIndexSum
 
     public static void main(String[] args)
     {
-
+        //exercises
         int sum = IntStream.range(0, myText.length()).filter(v -> VOCALS.contains(myText.charAt(v) + "")).sum();
         System.out.println(sum);
     }
