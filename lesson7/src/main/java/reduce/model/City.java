@@ -3,7 +3,7 @@ package reduce.model;
 public class City {
     private String name;
     private String state;
-    private int people;
+    private Integer people;
     private double area;
 
     public String getName() {
@@ -22,11 +22,11 @@ public class City {
         this.state = state;
     }
 
-    public int getPeople() {
+    public Integer getPeople() {
         return people;
     }
 
-    public void setPeople(int people) {
+    public void setPeople(Integer people) {
         this.people = people;
     }
 
