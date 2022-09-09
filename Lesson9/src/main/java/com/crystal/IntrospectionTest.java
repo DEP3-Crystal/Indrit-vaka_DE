@@ -1,4 +1,4 @@
-package com.crystal.reflection;
+package com.crystal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

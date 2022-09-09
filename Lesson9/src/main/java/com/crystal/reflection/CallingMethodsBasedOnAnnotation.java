@@ -1,6 +1,8 @@
-package com.crystal.reflection.anotation;
+package com.crystal.reflection;
 
-import com.crystal.reflection.model.User;
+import com.crystal.anotation.GetRole;
+import com.crystal.model.User;
+import com.crystal.proxy.Services;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,19 +40,3 @@ public class CallingMethodsBasedOnAnnotation {
 
 }
 
-class Services {
-    @GetRole(role = "user")
-    public void addOne(int n) {
-        System.out.println("Im user => " + (n + 1));
-    }
-
-    @GetRole(role = "admin")
-    public void sqrt(int n) {
-        System.out.println("i am admin => " + n * n);
-    }
-
-    public void multiply(int n) {
-        System.out.println("i have no annotation => " + n * 5);
-    }
-
-}

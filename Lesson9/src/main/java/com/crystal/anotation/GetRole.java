@@ -1,4 +1,4 @@
-package com.crystal.reflection.anotation;
+package com.crystal.anotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
