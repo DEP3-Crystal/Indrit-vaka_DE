@@ -29,7 +29,7 @@ public class PublicHolidaysNew {
 
 
     public static void main(String[] args) throws IOException {
-//        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "1");
+//        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "5");
         InputStream inputStream = PublicHolidays.class.getResourceAsStream("/supported.csv");
         ApiClient client = new ApiClient();
         client.setBasePath("https://date.nager.at");
@@ -37,24 +37,23 @@ public class PublicHolidaysNew {
         long toEpochMilli = ZonedDateTime.now().toInstant().toEpochMilli();
         Map<String, Integer> phPerCountry;
         try (CSVParser csvParser = CSVParser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8), CSVFormat.DEFAULT)) {
-                phPerCountry = csvParser.stream()
-                        .map(v1 -> CountryInfo.builder()
-                                .name(v1.get(0))
-                                .code(v1.get(1))
-                                .build())
-                        .toList().stream()
-                        .parallel()
-                        .map(c -> {
-                            try {
-                                List<PublicHolidayV3Dto> ph = publicHolidayApi.publicHolidayPublicHolidaysV3(2022, c.getCode());
-                                c.setNumberOfHolidays(ph.size());
-                                return c;
-                            } catch (ApiException e) {
-                                throw new RuntimeException(e);
-                            }
-                        })
-                        .peek(s-> System.out.println(s+" " +Thread.currentThread().getName()))
-                        .collect(Collectors.toMap(c -> c.name, c -> c.numberOfHolidays));
+            phPerCountry = csvParser.stream()
+                    .map(v1 -> CountryInfo.builder()
+                            .name(v1.get(0))
+                            .code(v1.get(1))
+                            .build())
+                    .toList().stream()
+                    .parallel()
+                    .map(c -> {
+                        try {
+                            List<PublicHolidayV3Dto> ph = publicHolidayApi.publicHolidayPublicHolidaysV3(2022, c.getCode());
+                            c.setNumberOfHolidays(ph.size());
+                            return c;
+                        } catch (ApiException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.toMap(c -> c.name, c -> c.numberOfHolidays));
 
         }
 
@@ -62,7 +61,10 @@ public class PublicHolidaysNew {
 
         System.out.println("country with most holidays: " + countryWithMaxHolidays);
 
-        Map.Entry<String, Integer> countryWithLessPH = phPerCountry.entrySet().stream().min(Comparator.comparingInt(Map.Entry::getValue)).orElseThrow();
+        Map.Entry<String, Integer> countryWithLessPH =
+                phPerCountry.entrySet()
+                        .stream()
+                        .min(Comparator.comparingInt(Map.Entry::getValue)).orElseThrow();
         System.out.println("Country with less PH is: " + countryWithLessPH);
         System.out.println("It took: " + (ZonedDateTime.now().toInstant().toEpochMilli() - toEpochMilli) + "ms");
 
