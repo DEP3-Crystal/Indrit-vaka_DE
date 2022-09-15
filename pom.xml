@@ -16,6 +16,7 @@
         <module>lesson5</module>
         <module>lesson7</module>
         <module>Lesson9</module>
+        <module>lesson10</module>
     </modules>
 
     <properties>
@@ -31,6 +32,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>0.10.4</version>
         </dependency>
     </dependencies>
 
