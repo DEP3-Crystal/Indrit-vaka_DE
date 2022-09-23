@@ -23,6 +23,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 public class PublicHolidays {
     @Builder(toBuilder = true)
     @Data
@@ -36,15 +37,20 @@ public class PublicHolidays {
         InputStream inputStream = PublicHolidays.class.getResourceAsStream("/supported.csv");
 
         List<CountryInfo> countryInfoList;
-        try (CSVParser csvParser = CSVParser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8), CSVFormat.DEFAULT)) {
+        try (CSVParser csvParser = CSVParser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8),
+                CSVFormat.Builder.create()
+                        .setHeader("country", "code")
+                        .setSkipHeaderRecord(true)
+                        .build())) {
+
             countryInfoList = csvParser.stream()
-//                    .parallel()
+                    .parallel()
                     .map(v1 -> CountryInfo.builder()
-                            .name(v1.get(0))
-                            .code(v1.get(1))
+                            .name(v1.get("country"))
+                            .code(v1.get("code"))
                             .build()).toList();
         }
-
+        System.out.println(countryInfoList);
         ApiClient client = new ApiClient();
         client.setBasePath("https://date.nager.at");
         PublicHolidayApi api = new PublicHolidayApi(client);
@@ -86,6 +92,8 @@ public class PublicHolidays {
                 return Optional.empty();
             }
         } catch (ApiException e) {
+            System.out.println(c.name);
+
             throw new RuntimeException(e);
         }
     };
