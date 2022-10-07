@@ -18,13 +18,14 @@ public class ProxyUserTest {
     public void testGuestsMethods() {
         Assertions.assertDoesNotThrow(() -> services.multiply(1));
     }
+
     @Test
-    public void testUserMethods()
-    {
-        Assertions.assertDoesNotThrow( () -> services.addOneUser(5));
+    public void testUserMethods() {
+        Assertions.assertDoesNotThrow(() -> services.addOneUser(5));
     }
+
     @Test
-    public void testAdminMethods(){
+    public void testAdminMethods() {
         Assertions.assertThrows(RuntimeException.class, () -> services.sqrtAdmin(5));
     }
 }

@@ -46,11 +46,13 @@ public class IntrospectionTest {
 
     }
 }
-class  A{
+
+class A {
     private int a1;
     protected int a2;
 }
-class B extends A{
+
+class B extends A {
     private int b1;
     public int b2;
 }
@@ -58,7 +60,6 @@ class B extends A{
 class MyClass {
     private String fld1;
     protected int fld2;
-
 
 
     MyClass() {

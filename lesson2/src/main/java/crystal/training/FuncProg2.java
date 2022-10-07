@@ -8,22 +8,18 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class FuncProg2
-{
+public class FuncProg2 {
     static Integer[] values = new Integer[]{1, 2, 3, 4, 5};
 
-    static Collection<Integer> printProcessedValues(Integer[] values, Function<Integer, Integer> converter)
-    {
+    static Collection<Integer> printProcessedValues(Integer[] values, Function<Integer, Integer> converter) {
         return Arrays.stream(values).map(converter::apply).filter(v -> v < 10).collect(Collectors.toList());
     }
 
-    public static List<Person> processPersons(List<Person> people, Predicate<Person> condition)
-    {
+    public static List<Person> processPersons(List<Person> people, Predicate<Person> condition) {
         return people.stream().filter(condition).collect(Collectors.toList());
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         System.out.println(printProcessedValues(values, v -> v * 3));
         // TBD - filter also functional argument Function<Integer,Boolean>
         Arrays.stream(new Integer[]{1, 2}).map(v ->

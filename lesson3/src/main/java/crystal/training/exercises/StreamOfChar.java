@@ -9,6 +9,6 @@ public class StreamOfChar {
 
     // TO DO - find 2 other ways to create a stream of chars from a string !!!!
     public static void main(String[] args) {
-        Stream<Character> characterStream = new String(myText).chars().mapToObj(i->(char)i);
+        Stream<Character> characterStream = new String(myText).chars().mapToObj(i -> (char) i);
     }
 }

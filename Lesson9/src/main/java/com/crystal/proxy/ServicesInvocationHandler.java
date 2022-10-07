@@ -24,10 +24,10 @@ public class ServicesInvocationHandler implements InvocationHandler {
             role = method.getAnnotation(GetRole.class).role();
         }
 
-        if(role.equalsIgnoreCase("")|| userRole.equalsIgnoreCase("admin") || role.equalsIgnoreCase(userRole) ){
+        if (role.equalsIgnoreCase("") || userRole.equalsIgnoreCase("admin") || role.equalsIgnoreCase(userRole)) {
             Object result = method.invoke(services, args);
             return result;
-        }else{
+        } else {
             throw new RuntimeException("You don't have access to access this method: " + method.getName());
         }
 

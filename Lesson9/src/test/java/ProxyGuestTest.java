@@ -20,14 +20,15 @@ public class ProxyGuestTest {
         //Guest Access
         Assertions.assertDoesNotThrow(() -> services.multiply(1));
     }
+
     @Test
-    public void testUserMethods()
-    {
+    public void testUserMethods() {
         //User privileges needed
         Assertions.assertThrows(RuntimeException.class, () -> services.addOneUser(5));
     }
+
     @Test
-    public void testAdminMethods(){
+    public void testAdminMethods() {
         //Admin privileges needed
         Assertions.assertThrows(RuntimeException.class, () -> services.sqrtAdmin(5));
     }

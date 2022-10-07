@@ -10,7 +10,7 @@ public class ProxyEX {
         Services services = new Services();
         ServicesInvocationHandler invocationHandler = new ServicesInvocationHandler(services, user);
 
-        IServices proxyInstance = (IServices)Proxy.newProxyInstance(Services.class.getClassLoader(), new Class[]{IServices.class}, invocationHandler);
+        IServices proxyInstance = (IServices) Proxy.newProxyInstance(Services.class.getClassLoader(), new Class[]{IServices.class}, invocationHandler);
 
         //No annotations
         proxyInstance.multiply(5);

@@ -1,7 +1,7 @@
 package com.crystal.model;
 
 
-public class User implements IUser{
+public class User implements IUser {
     private String name;
     private int age;
     private ThreadLocal<String> role = new ThreadLocal<>();

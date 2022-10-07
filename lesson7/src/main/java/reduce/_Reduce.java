@@ -1,16 +1,9 @@
 package reduce;
 
-import jdk.dynalink.linker.ConversionComparator;
 import reduce.model.City;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.Comparator;
+import java.util.Set;
 
 public class _Reduce {
     public static void main(String[] args) {
@@ -59,7 +52,7 @@ public class _Reduce {
         City city = cities.stream()
                 .max((Comparator.comparing(City::getPeople)))
                 .orElseThrow();
-        System.out.println("City: "  + city);
+        System.out.println("City: " + city);
 
     }
 

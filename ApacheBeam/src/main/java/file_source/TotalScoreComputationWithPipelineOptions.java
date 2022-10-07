@@ -10,17 +10,20 @@ import org.apache.beam.sdk.values.KV;
 public class TotalScoreComputationWithPipelineOptions {
     private static final String CSV_HEADER = "ID,Name,Physics,Chemistry,Math,English,Biology,History";
 
-    public  interface  TotalScoreComputationOptions extends PipelineOptions {
+    public interface TotalScoreComputationOptions extends PipelineOptions {
         @Description("Path of the file to read from")
         @Default.String("ApacheBeam/src/main/resources/source/student_scores.csv")
         String getInputFile();
+
         void setInputFile(String value);
+
         @Description("Path of the file to write to")
         @Validation.Required
         String getOutputFile();
 
         void setOutputFile(String value);
     }
+
     public static void main(String[] args) {
         TotalScoreComputationOptions options = PipelineOptionsFactory.fromArgs(args).withValidation()
                 .as(TotalScoreComputationOptions.class);
@@ -34,8 +37,8 @@ public class TotalScoreComputationWithPipelineOptions {
                 .apply(ParDo.of(new ComputeTotalScoreFn()))
                 .apply(ParDo.of(new ConvertToStringFn()))
                 .apply(TextIO.write().to(options.getOutputFile())
-                        .withHeader("Name,Total")
-                       // .withNumShards(1) //limiting the output file numbers (also we lose some parallelism)
+                                .withHeader("Name,Total")
+                        // .withNumShards(1) //limiting the output file numbers (also we lose some parallelism)
                 );
 
         pipeline.run();
