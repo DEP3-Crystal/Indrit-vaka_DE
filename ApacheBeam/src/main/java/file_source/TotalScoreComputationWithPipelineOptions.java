@@ -12,7 +12,7 @@ public class TotalScoreComputationWithPipelineOptions {
 
     public  interface  TotalScoreComputationOptions extends PipelineOptions {
         @Description("Path of the file to read from")
-        @Default.String("src/main/resources/source/student_scores.csv")
+        @Default.String("ApacheBeam/src/main/resources/source/student_scores.csv")
         String getInputFile();
         void setInputFile(String value);
         @Description("Path of the file to write to")

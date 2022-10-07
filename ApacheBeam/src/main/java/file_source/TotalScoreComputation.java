@@ -15,11 +15,11 @@ public class TotalScoreComputation {
         PipelineOptions options = PipelineOptionsFactory.create();
         Pipeline pipeline = Pipeline.create(options);
 
-        pipeline.apply(TextIO.read().from("src/main/resources/source/student_scores.csv"))
+        pipeline.apply(TextIO.read().from("ApacheBeam/src/main/resources/source/student_scores.csv"))
                 .apply(ParDo.of(new FilterHeaderFn(CSV_HEADER)))
                 .apply(ParDo.of(new ComputeTotalScoreFn()))
                 .apply(ParDo.of(new ConvertToStringFn()))
-                .apply(TextIO.write().to("src/main/resources/sink/student_total_scores.csv")
+                .apply(TextIO.write().to("ApacheBeam/src/main/resources//sink/student_total_scores.csv")
                         .withHeader("Name,Total")
                         .withNumShards(1) //limiting the output file numbers (also we lose some parallelism)
                 );

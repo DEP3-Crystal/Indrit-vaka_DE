@@ -34,9 +34,8 @@ public class StockPricePercentageDeltaComputation {
                 }))
                 .apply(ParDo.of(new DoFn<String, String>() {
                     @ProcessElement
-                    public void processElement(ProcessContext c) {
+                    public void printElement(ProcessContext c) {
                         System.out.println(c.element());
-                        String name = c.element();
                         c.output(c.element());
                     }
                 }));
@@ -47,14 +46,14 @@ public class StockPricePercentageDeltaComputation {
     public interface ComputationOptions extends PipelineOptions {
 
         @Description("Path of file to read from")
-        @Default.String("src/main/resources/streaming_source/*.csv")
+        @Default.String("ApacheBeam/src/main/resources/streaming_source/*.csv")
         String getInputFile();
 
         void setInputFile(String value);
 
         @Description("Path of the file to write to")
         @Validation.Required
-        @Default.String("src/main/resources/sink/percentage_delta")
+        @Default.String("ApacheBeam/src/main/resources/sink/percentage_delta")
         String getOutputFile();
 
         void setOutputFile(String value);
