@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
+        <module>ApacheBeam</module>
         <module>lesson2</module>
         <module>lesson1</module>
         <module>lesson3</module>
@@ -18,6 +19,7 @@
         <module>Lesson9</module>
         <module>lesson10</module>
         <module>lesson11</module>
+        <module>lesson12</module>
     </modules>
 
     <properties>

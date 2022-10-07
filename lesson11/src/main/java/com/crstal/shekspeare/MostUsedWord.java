@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class MostUsedWord {
     public static void main(String[] args) {
-        Function<String, Stream<String>> convertToWord = line -> Arrays.stream(line.split(" "));
+        Function<String, Stream<String>> convertToWord = line -> Arrays.stream(line.split("^[a-zA-Z]"));
 
         try(Stream<String> lines = Files.lines(Path.of("lesson11/src/main/resources/shakespeare.txt"))){
 
