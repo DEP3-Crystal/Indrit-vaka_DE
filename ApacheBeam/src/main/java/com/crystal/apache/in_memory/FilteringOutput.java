@@ -1,4 +1,4 @@
-package in_memory;
+package com.crystal.apache.in_memory;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.options.PipelineOptions;

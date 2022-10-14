@@ -1,4 +1,4 @@
-package streaming_data;
+package com.crystal.apache.streaming_data;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
@@ -37,6 +37,10 @@ public class StockPricePercentageDeltaComputation {
                     public void printElement(ProcessContext c) {
                         System.out.println(c.element());
                         c.output(c.element());
+                    }
+                    @DoFn.FinishBundle
+                    public void finishBundle(DoFn<String, String>.FinishBundleContext finishBundleContext) {
+                        System.out.println("-------------------------------------------------");
                     }
                 }));
 

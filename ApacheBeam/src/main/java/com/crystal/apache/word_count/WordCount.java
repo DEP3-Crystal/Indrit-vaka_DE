@@ -1,4 +1,4 @@
-package word_count;
+package com.crystal.apache.word_count;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;

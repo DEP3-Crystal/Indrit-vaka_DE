@@ -1,44 +1,27 @@
-package file_source;
+package com.crystal.apache.file_source;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
-import org.apache.beam.sdk.options.*;
+import org.apache.beam.sdk.options.PipelineOptions;
+import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.KV;
 
-public class TotalScoreComputationWithPipelineOptions {
+public class TotalScoreComputation {
     private static final String CSV_HEADER = "ID,Name,Physics,Chemistry,Math,English,Biology,History";
 
-    public interface TotalScoreComputationOptions extends PipelineOptions {
-        @Description("Path of the file to read from")
-        @Default.String("ApacheBeam/src/main/resources/source/student_scores.csv")
-        String getInputFile();
-
-        void setInputFile(String value);
-
-        @Description("Path of the file to write to")
-        @Validation.Required
-        String getOutputFile();
-
-        void setOutputFile(String value);
-    }
-
     public static void main(String[] args) {
-        TotalScoreComputationOptions options = PipelineOptionsFactory.fromArgs(args).withValidation()
-                .as(TotalScoreComputationOptions.class);
-
-        System.out.println("****Input file: " + options.getInputFile());
-        System.out.println("****Output file: " + options.getOutputFile());
-
+        PipelineOptions options = PipelineOptionsFactory.create();
         Pipeline pipeline = Pipeline.create(options);
-        pipeline.apply(TextIO.read().from(options.getInputFile()))
+
+        pipeline.apply(TextIO.read().from("ApacheBeam/src/main/resources/source/student_scores.csv"))
                 .apply(ParDo.of(new FilterHeaderFn(CSV_HEADER)))
                 .apply(ParDo.of(new ComputeTotalScoreFn()))
                 .apply(ParDo.of(new ConvertToStringFn()))
-                .apply(TextIO.write().to(options.getOutputFile())
-                                .withHeader("Name,Total")
-                        // .withNumShards(1) //limiting the output file numbers (also we lose some parallelism)
+                .apply(TextIO.write().to("ApacheBeam/src/main/resources//sink/student_total_scores.csv")
+                        .withHeader("Name,Total")
+                        .withNumShards(1) //limiting the output file numbers (also we lose some parallelism)
                 );
 
         pipeline.run();

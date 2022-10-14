@@ -48,7 +48,7 @@ public class PublicHolidays {
                     .map(v1 -> CountryInfo.builder()
                             .name(v1.get("country"))
                             .code(v1.get("code"))
-                            .build()).toList();
+                            .build()).collect(Collectors.toList());
         }
         System.out.println(countryInfoList);
         ApiClient client = new ApiClient();

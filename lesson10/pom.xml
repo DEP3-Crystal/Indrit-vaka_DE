@@ -12,10 +12,6 @@
     <artifactId>lesson10</artifactId>
 
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- -->
         <swagger-core-version>2.0.0</swagger-core-version>
         <okhttp-version>2.7.5</okhttp-version>

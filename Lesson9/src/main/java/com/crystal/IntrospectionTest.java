@@ -28,8 +28,8 @@ public class IntrospectionTest {
         Class<?> bSuperclass = B.class.getSuperclass();
         Field[] bSuperclassDeclaredFields = bSuperclass.getDeclaredFields();
 
-        allFields.addAll(Arrays.stream(bDeclaredFields).toList());
-        allFields.addAll(Arrays.stream(bSuperclassDeclaredFields).toList());
+        allFields.addAll(Arrays.stream(bDeclaredFields).collect(Collectors.toList()));
+        allFields.addAll(Arrays.stream(bSuperclassDeclaredFields).collect(Collectors.toList()));
         System.out.println("Fields all fields of B and the fields of b supperClass \n" + allFields);
         //END Ex
         Set<String> methodNames = Arrays.stream(myClass.getClass().getDeclaredMethods())

@@ -39,7 +39,7 @@ public class PublicHolidays {
                             .map(v1 -> CountryInfo.builder()
                                     .name(v1.get(0))
                                     .code(v1.get(1))
-                                    .build()).toList();
+                                    .build()).collect(Collectors.toList());
             System.out.println(countryInfoList.size());
 //           countryInfoList.forEach(System.out::println);
         }

@@ -1,4 +1,4 @@
-package in_memory;
+package com.crystal.apache.in_memory;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.options.PipelineOptions;
@@ -14,6 +14,7 @@ import java.util.List;
 public class Aggregation {
     public static void main(String[] args) {
         PipelineOptions options = PipelineOptionsFactory.create();
+
         Pipeline pipeline = Pipeline.create(options);
         List<Double> data = Arrays.asList(65_191.0, 981.0, 81.0, 0.8819, 158.415);
 

@@ -42,7 +42,7 @@ public class PublicHolidaysNew {
                             .name(v1.get(0))
                             .code(v1.get(1))
                             .build())
-                    .toList().stream()
+                    .collect(Collectors.toList()).stream()
                     .parallel()
                     .map(c -> {
                         try {
