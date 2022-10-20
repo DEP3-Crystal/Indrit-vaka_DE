@@ -18,7 +18,7 @@ public class SchemaDefinitionFromFile {
 
         System.out.println("has schema? " + salesRecord.hasSchema());
         System.out.println("schema: " + salesRecord.getSchema());
-        pipeline.run();
+
         System.out.println("Processing pipeline finished");
 
         salesRecord.apply(MapElements

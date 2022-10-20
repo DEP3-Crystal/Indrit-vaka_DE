@@ -1,4 +1,4 @@
-Date,Product,Card,Country
+Date,Product,Price,paymentType,Country
 1/2/09 6:17,Shoes,1200,Mastercard,United Kingdom
 1/2/09 4:53,Shoes,1200,Visa,United States
 1/2/09 13:08,Pencils,10,Mastercard,United States
