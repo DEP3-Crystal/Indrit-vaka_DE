@@ -1,4 +1,4 @@
-package com.crystal.apache.transformations_to_streaming_data.par_do;
+package com.crystal.apache.transformations_to_streaming_data.par_do.filtering;
 
 import com.crystal.apache.transformations_to_streaming_data.model.Car;
 import org.apache.beam.sdk.Pipeline;
@@ -50,7 +50,6 @@ public class FilteringUsingModel {
         public void deserialize(ProcessContext c) {
             String[] entries = c.element().split(",");
             if (entries.length < 10) {
-                //System.out.println("Missing entries at line: " +c.element() );
                 return;
             }
             String mark = entries[0];

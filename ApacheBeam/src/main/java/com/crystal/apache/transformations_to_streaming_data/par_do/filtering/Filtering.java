@@ -1,4 +1,4 @@
-package com.crystal.apache.transformations_to_streaming_data.par_do;
+package com.crystal.apache.transformations_to_streaming_data.par_do.filtering;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
