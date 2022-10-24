@@ -6,7 +6,7 @@ import org.apache.beam.sdk.values.KV;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
-public class ToKVByEntryFnNew<T,K> extends DoFn<T, KV<K, T>> implements Serializable {
+public class ToKVByEntryFnNew<K,V> extends DoFn<V, KV<K, V>> {
     private String fieldName;
 
     public ToKVByEntryFnNew(String fieldName) {
@@ -16,13 +16,13 @@ public class ToKVByEntryFnNew<T,K> extends DoFn<T, KV<K, T>> implements Serializ
 
     @ProcessElement
     public void transformToKV(ProcessContext c) throws NoSuchFieldException, IllegalAccessException {
-        T t = c.element();
+        V v = c.element();
 
-        Field field = t.getClass().getDeclaredField(fieldName);
+        Field field = v.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
-        K key = (K) field.get(t);
+        K key = (K) field.get(v);
 
 
-        c.output(KV.of(key, t));
+        c.output(KV.of(key, v));
     }
 }

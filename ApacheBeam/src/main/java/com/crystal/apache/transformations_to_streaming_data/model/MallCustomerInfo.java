@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Builder
 @Data
-public class MallInfo implements Serializable {
+public class MallCustomerInfo implements Serializable {
     //CustomerID,Gender,Age,Annual_Income
     private int customerID;
     private String gender;
@@ -16,7 +16,7 @@ public class MallInfo implements Serializable {
 
     @Override
     public String toString() {
-        return customerID + ','
+        return customerID + ","
                 + gender + ','
                 + age + ','
                 + annualIncome;
