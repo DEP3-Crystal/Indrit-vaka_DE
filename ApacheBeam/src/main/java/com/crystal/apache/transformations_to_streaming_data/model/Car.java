@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 @Builder
 public class Car implements Serializable {
-    private String mark;
+    private String make;
     private double price;
     private String body;
     private String mileage;
@@ -22,7 +22,7 @@ public class Car implements Serializable {
 
     @Override
     public String toString() {
-        return mark + ',' +
+        return make + ',' +
                 price + "," +
                 body + ',' +
                 mileage + ',' +

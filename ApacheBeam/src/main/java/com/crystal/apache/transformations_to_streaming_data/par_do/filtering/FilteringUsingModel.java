@@ -2,7 +2,6 @@ package com.crystal.apache.transformations_to_streaming_data.par_do.filtering;
 
 import com.crystal.apache.transformations_to_streaming_data.model.Car;
 import org.apache.beam.sdk.Pipeline;
-import org.apache.beam.sdk.io.FileIO;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
@@ -63,7 +62,7 @@ public class FilteringUsingModel {
             String model = entries[8];
             String drive = entries[9];
             Car car = Car.builder()
-                    .mark(mark)
+                    .make(mark)
                     .price(price)
                     .body(body)
                     .mileage(mileage)
@@ -79,16 +78,16 @@ public class FilteringUsingModel {
     }
 
     private static class FilterByMark extends DoFn<Car, Car> {
-        private final String mark;
+        private final String make;
 
-        public FilterByMark(String mark) {
-            this.mark = mark;
+        public FilterByMark(String make) {
+            this.make = make;
         }
 
         @ProcessElement
         public void filter(ProcessContext c) {
             var car = c.element();
-            if (car.getMark().equals(mark)) {
+            if (car.getMake().equals(make)) {
                 c.output(car);
             }
         }

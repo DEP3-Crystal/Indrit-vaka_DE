@@ -52,16 +52,16 @@ public class OldestCar {
 
 
     private static class FilterByMark extends DoFn<Car, Car> {
-        private final String mark;
+        private final String make;
 
-        public FilterByMark(String mark) {
-            this.mark = mark;
+        public FilterByMark(String make) {
+            this.make = make;
         }
 
         @ProcessElement
         public void filter(ProcessContext c) {
             var car = c.element();
-            if (car.getMark().equals(mark)) {
+            if (car.getMake().equals(make)) {
                 c.output(car);
             }
         }

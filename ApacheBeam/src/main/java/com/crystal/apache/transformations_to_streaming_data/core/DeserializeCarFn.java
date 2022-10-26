@@ -21,7 +21,7 @@ public class DeserializeCarFn extends DoFn<String, Car> {
         String model = entries[8];
         String drive = entries[9];
         Car car = Car.builder()
-                .mark(mark)
+                .make(mark)
                 .price(price)
                 .body(body)
                 .mileage(mileage)
