@@ -8,6 +8,7 @@
     <artifactId>de.lessons</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
+
     <modules>
         <module>ApacheBeam</module>
         <module>lesson2</module>
@@ -21,6 +22,7 @@
         <module>lesson11</module>
         <module>lesson12</module>
         <module>lesson13</module>
+        <module>Bigquery_Java</module>
     </modules>
 
     <properties>

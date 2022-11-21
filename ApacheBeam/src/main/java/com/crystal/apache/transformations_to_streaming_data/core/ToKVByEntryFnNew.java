@@ -1,28 +1,29 @@
 package com.crystal.apache.transformations_to_streaming_data.core;
 
+import org.apache.beam.sdk.coders.Coder;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.values.KV;
+import org.apache.beam.sdk.values.TypeDescriptor;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
+public class ToKVByEntryFnNew<K,V> extends DoFn<V, KV<K, V>>  {
+//    private String fieldName;
+    private final KeyProvider<K,V> keyProvider;
+    private final Coder<KV<K,V>> coder;
 
-public class ToKVByEntryFnNew<K,V> extends DoFn<V, KV<K, V>> {
-    private String fieldName;
-
-    public ToKVByEntryFnNew(String fieldName) {
-        this.fieldName = fieldName;
+    public ToKVByEntryFnNew(KeyProvider<K,V> keyProvider, Coder<KV<K, V>> coder) {
+        this.keyProvider = keyProvider;
+        this.coder = coder;
     }
 
-
     @ProcessElement
-    public void transformToKV(ProcessContext c) throws NoSuchFieldException, IllegalAccessException {
-        V v = c.element();
+    public void transformToKV(ProcessContext c) {
+        V value = c.element();
 
-        Field field = v.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        K key = (K) field.get(v);
+        c.output(KV.of(keyProvider.getKey(value), value));
+    }
 
-
-        c.output(KV.of(key, v));
+    @Override
+    public TypeDescriptor<KV<K, V>> getOutputTypeDescriptor() {
+        return coder.getEncodedTypeDescriptor();
     }
 }

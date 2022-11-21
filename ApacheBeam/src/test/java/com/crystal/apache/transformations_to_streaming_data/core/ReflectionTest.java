@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ReflectionTest {
 
+
     @Test
     public void givenObject_whenGetsFieldNamesAtRuntime_thenCorrect() throws NoSuchFieldException, IllegalAccessException {
         Person person = Person.builder()

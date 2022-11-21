@@ -1,11 +1,14 @@
 package com.crystal.apache.transformations_to_streaming_data.group_by;
 
 import com.crystal.apache.transformations_to_streaming_data.core.RemoveHeadersFn;
-import com.crystal.apache.transformations_to_streaming_data.core.ToKVByEntryFn;
+import com.crystal.apache.transformations_to_streaming_data.core.ToKVByEntryFnNew;
 import com.crystal.apache.transformations_to_streaming_data.model.Customer;
 import com.crystal.apache.transformations_to_streaming_data.model.MallCustomerInfo;
 import com.crystal.apache.transformations_to_streaming_data.model.MallCustomerScore;
 import org.apache.beam.sdk.Pipeline;
+import org.apache.beam.sdk.coders.KvCoder;
+import org.apache.beam.sdk.coders.SerializableCoder;
+import org.apache.beam.sdk.coders.VarIntCoder;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
@@ -22,9 +25,9 @@ import org.slf4j.LoggerFactory;
 
 
 public class Joining {
-    private static final Logger LOG = LoggerFactory.getLogger(Joining.class);
     static final TupleTag<MallCustomerInfo> incomeTag = new TupleTag<>();
     static final TupleTag<MallCustomerScore> scoreTag = new TupleTag<>();
+    private static final Logger LOG = LoggerFactory.getLogger(Joining.class);
 
     public static void main(String[] args) throws InterruptedException {
         PipelineOptions options = PipelineOptionsFactory.create();
@@ -33,27 +36,33 @@ public class Joining {
         String root = "ApacheBeam/src/main/resources/";
         String csvInfoHeader = "CustomerID,Gender,Age,Annual_Income";
         String csvScoreHeader = "CustomerID,Spending Score";
-        var customerIncome = pipeline.apply(TextIO.read().from(root + "source/mall/mall_customers_info.csv"))
-                .apply("Filtering headers", ParDo.of(new RemoveHeadersFn(csvInfoHeader)))
-                .apply("deserialization", ParDo.of(new DeserializeMallInfo()))
-                .apply("IdIncomeKV", ParDo.of(new ToKVByEntryFn<>("customerID")));
-       // customerIncome.apply("Printing result", ParDo.of(new PrintResultFn<>()));
+        var customerIncome =
+                pipeline.apply(TextIO.read().from(root + "source/mall/mall_customers_info.csv"))
+                        .apply("Filtering headers", ParDo.of(new RemoveHeadersFn(csvInfoHeader)))
+                        .apply("deserialization", ParDo.of(new DeserializeMallInfo()))
+                        .apply("IdIncomeKV", ParDo.of(
+                                new ToKVByEntryFnNew<>(MallCustomerInfo::getAge,
+                                        KvCoder.of(VarIntCoder.of(), SerializableCoder.of(MallCustomerInfo.class))
+                                )));
+        // customerIncome.apply("Printing result", ParDo.of(new PrintResultFn<>())) ;
 
-        PCollection<KV<String, MallCustomerScore>> customersScore = pipeline.apply(TextIO.read().from("ApacheBeam/src/main/resources/source/mall/mall_customers_score.csv"))
+        PCollection<KV<Integer, MallCustomerScore>> customersScore = pipeline.apply(TextIO.read().from("ApacheBeam/src/main/resources/source/mall/mall_customers_score.csv"))
                 .apply("Filtering headers", ParDo.of(new RemoveHeadersFn(csvScoreHeader)))
                 .apply("Deserialize object", ParDo.of(new DeserializeMallCustomerScoreFn()))
-                .apply("IdIncomeKV", ParDo.of(new ToKVByEntryFn<>("customerID")));
+                .apply("IdIncomeKV", ParDo.of(new ToKVByEntryFnNew<>(MallCustomerScore::getCustomerID, KvCoder.of(VarIntCoder.of(), SerializableCoder.of(MallCustomerScore.class)))));
 
-        // customersScore.apply("Printing result", ParDo.of(new PrintResultFn<>()));
+        //customersScore.apply("Printing result", ParDo.of(new PrintResultFn<>()));
 
-        PCollection<KV<String, CoGbkResult>> joined = KeyedPCollectionTuple
+//        PCollection<KV<Integer, CoGbkResult>> joined =
+        KeyedPCollectionTuple
                 .of(incomeTag, customerIncome)
                 .and(scoreTag, customersScore)
-                .apply(CoGroupByKey.create());
+                .apply(CoGroupByKey.create())
+                .apply("Printing result", ParDo.of(new PrintResultFn<>()))
+        ;
 
-        joined.apply("Deserialize to customer", ParDo.of(new DeserializeCostumerFn()))
-                        .apply("Printing results", ParDo.of(new PrintResultFn<>()));
-
+//        joined.apply("Deserialize to customer", ParDo.of(new DeserializeCostumerFn()))
+//                        .apply("Printing results", ParDo.of(new PrintResultFn<>()));
 
 
         pipeline.run().waitUntilFinish();
@@ -98,7 +107,7 @@ public class Joining {
 
     private static class DeserializeCostumerFn extends DoFn<KV<String, CoGbkResult>, Customer> {
         @ProcessElement
-        public void deserialize(ProcessContext c){
+        public void deserialize(ProcessContext c) {
             KV<String, CoGbkResult> element = c.element();
             MallCustomerInfo info = element.getValue().getOnly(incomeTag);
             MallCustomerScore score = element.getValue().getOnly(scoreTag);
