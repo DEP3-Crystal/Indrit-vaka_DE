@@ -13,7 +13,7 @@ import com.google.cloud.bigquery.*;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        //GOOGLE_APPLICATION_CREDENTIALS=~/Downloads/your-service-account-file.json mvn exec:java -Dexec.mainClass="com.sohamkamani.App" -Dexec.classpathScope=runtime
+        //GOOGLE_APPLICATION_CREDENTIALS=~/Downloads/your-service-account-file.json mvn exec:java -Dexec.mainClass="com.sohamkamani.Select" -Dexec.classpathScope=runtime
         BigQuery bigQuery = BigQueryOptions.newBuilder()
                 .setProjectId("bigquery-368715")
                 .build()
